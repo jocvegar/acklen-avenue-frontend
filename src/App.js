@@ -1,18 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This will be my main page!
-        </p>
-      </header>
+class App extends React.Component {
+  state = {
+    candidates: []
+  }
+  componentDidMount() {
+    // axios.get(`https://acklen-avenue-backend.herokuapp.com/api/candidates`)
+    axios.get('http://localhost:3000/api/candidates')
+      .then(res => {
+        const candidates = res.data;
+        this.setState({ candidates });
+      })
+  }
+  render() {
+   return(
+    <div>
+      <h1>Hola!</h1> 
+      <ul>
+        { this.state.candidates.map(candidate => 
+          <li key={candidate.slug}>{candidate.email}</li>
+        )}
+      </ul>
     </div>
-  );
+   )
+  }
 }
 
 export default App;
