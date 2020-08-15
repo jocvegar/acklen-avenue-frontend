@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import { useAuth } from "../context/auth";
+const createHistory = require("history").createBrowserHistory;
 
-function Bar() {
+function Bar(props) {
+    const { authTokens, setAuthTokens } = useAuth();
+    
+    function logOut() {
+        setAuthTokens();
+        localStorage.clear();
+        let history = createHistory();
+        history.push("/login");
+    }
     return(
         <Navbar bg="dark" expand="lg" variant="dark">
             <Navbar.Brand href="/">AcklenAvenue</Navbar.Brand>
@@ -13,7 +23,10 @@ function Bar() {
                     <Nav.Link href="/about">About</Nav.Link>
                 </Nav>
                 <Nav>
-                    <Nav.Link href="/">Logout</Nav.Link>
+                    {authTokens
+                        ? <Nav.Link onClick={logOut}>Logout</Nav.Link>
+                        : <Nav.Link href="/login">Login</Nav.Link>
+                    }
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
