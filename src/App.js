@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          This will be my mine page!
+          This will be my main page!
         </p>
       </header>
     </div>
