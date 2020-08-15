@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 function Bar() {
     return(
         <Navbar bg="dark" expand="lg" variant="dark">
-            <Navbar.Brand href="/">Acklen-Avenue</Navbar.Brand>
+            <Navbar.Brand href="/">AcklenAvenue</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
