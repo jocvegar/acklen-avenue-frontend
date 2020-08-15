@@ -7,6 +7,7 @@ class Home extends React.Component {
   state = {
     candidates: []
   }
+
   componentDidMount() {
     // axios.get(`https://acklen-avenue-backend.herokuapp.com/api/candidates`)
     axios.get('http://localhost:3000/api/candidates')
