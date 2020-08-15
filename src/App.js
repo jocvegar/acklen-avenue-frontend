@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
+import Button from 'react-bootstrap/Button';
+import Bar from './components/Bar';
+
 
 class App extends React.Component {
   state = {
@@ -17,7 +20,9 @@ class App extends React.Component {
   render() {
    return(
     <div>
+      <Bar/>
       <h1>Hola!</h1> 
+      <Button>PRESSME</Button>
       <ul>
         { this.state.candidates.map(candidate => 
           <li key={candidate.slug}>{candidate.email}</li>
