@@ -3,12 +3,14 @@ import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class Home extends Component {
   constructor(props) {
     super();
     this.state = {
       candidates: [],
+      filterCandidates: [],
       showModal: false,
       first_name: "",
       last_name: "",
@@ -18,6 +20,7 @@ class Home extends Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.handleNewFormChange = this.handleNewFormChange.bind(this);
     this.submitNewForm = this.submitNewForm.bind(this);
+    this.filterCandidates = this.filterCandidates.bind(this);
   }
 
   setToken() {
@@ -38,7 +41,10 @@ class Home extends Component {
     })
     .then(res => {
       const candidates = res.data;
-      this.setState({ candidates });
+      this.setState({ 
+        candidates: candidates, 
+        filterCandidates:candidates 
+      });
     })
   }
 
@@ -96,6 +102,18 @@ class Home extends Component {
     })
     .catch((e) => console.log(e))
   }
+
+  filterCandidates(filter_word) {
+    let filterCandidates = [];
+    if (filter_word === "") {
+      filterCandidates = this.state.candidates;
+    } else {
+      filterCandidates = this.state.candidates.filter(
+        candidate => candidate.status === filter_word
+      );
+    }
+    this.setState({ filterCandidates });
+  }
   
   render() {
    return(
@@ -111,11 +129,28 @@ class Home extends Component {
           </button>
         </div>
         <div className="col-6">
-        <button 
+        {/* <button 
           type="button" 
-          className="btn btn-outline-secondary btn-sm btn-block">
+          className="btn btn-outline-secondary btn-sm btn-block"
+          onClick={this.reviewCandidtes}>
           Sort
-        </button>
+        </button> */}
+
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary">
+              Sort
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => this.filterCandidates("")}>All</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.filterCandidates("review")}>Pending</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.filterCandidates("pass")}>Pass</Dropdown.Item>
+            <Dropdown.Item onClick={() => this.filterCandidates("declined")}>Declined</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+
+
         </div>
       </div>
       <div className="responsive">
@@ -130,7 +165,7 @@ class Home extends Component {
         </tr>
         </thead>
         <tbody>
-        { this.state.candidates.map((candidate, idx) => 
+        { this.state.filterCandidates.map((candidate, idx) => 
           <tr key={candidate.slug}>
             <td>{candidate.first_name}</td>
             <td>{candidate.last_name}</td>
@@ -195,7 +230,6 @@ class Home extends Component {
           </Button>
         </Modal.Footer>
       </Modal>
-  
     </div>
    )
   }
