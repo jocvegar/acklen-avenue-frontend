@@ -53,7 +53,8 @@ class Home extends Component {
     candidates.splice(index, 1);
 
     this.setState({
-      candidates
+      candidates: candidates,
+      filterCandidates: candidates
     });
   }
 
