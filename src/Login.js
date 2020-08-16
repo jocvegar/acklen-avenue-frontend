@@ -46,7 +46,7 @@ function Login() {
         <div id="login">
             <div className="container pt-1">
                 <h2 className="text-center py-5">Welcome!</h2>
-                {apiURL}
+                {process.env.REACT_APP_API_URL}
                 {hasError &&
                     <Alert className="mb-5" variant="danger" onClose={() => setHasError(false)} dismissible>
                         The username or password provided were incorrect!
