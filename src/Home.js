@@ -165,47 +165,47 @@ class Home extends Component {
           </Dropdown>
         </div>
       </div>
-      <div className="responsive">
-      <table className="table table-hover table-bordered">
-        <thead>
-        <tr>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Status</th>
-          <th scope="col">Delete?</th>
-        </tr>
-        </thead>
-        <tbody>
-        { this.state.filterCandidates.map((candidate, idx) => 
-          <tr key={candidate.slug}>
-            <td>{candidate.first_name}</td>
-            <td>{candidate.last_name}</td>
-            <td>{candidate.email}</td>
-            <td>
-              <Form>
-                <Form.Group controlId="exampleForm.selectStatus">
-                  <Form.Control as="select" onChange={(event) => this.handleChangeSelect(event, candidate.slug)}>
-                    <option defaultvaluevalue={candidate.status}>{candidate.status}</option>
-                    <option value="review">review</option>
-                    <option value="pass">pass</option>
-                    <option value="declined">declined</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
-            </td>
-            <td className="text-center">
-              <button 
-                type="button" 
-                className="btn btn-danger btn-sm"
-                onClick={() => {if(window.confirm('Are you sure to delete this candidate?'))this.handleRemove(candidate.slug, idx)}}>
-                Remove
-              </button>
-          </td>
+      <div className="table-responsive-xl">
+        <table className="table table-hover table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Delete?</th>
           </tr>
-        )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          { this.state.filterCandidates.map((candidate, idx) => 
+            <tr key={candidate.slug}>
+              <td>{candidate.first_name}</td>
+              <td>{candidate.last_name}</td>
+              <td>{candidate.email}</td>
+              <td>
+                <Form>
+                  <Form.Group controlId="exampleForm.selectStatus">
+                    <Form.Control as="select" onChange={(event) => this.handleChangeSelect(event, candidate.slug)}>
+                      <option defaultvaluevalue={candidate.status}>{candidate.status}</option>
+                      <option value="review">review</option>
+                      <option value="pass">pass</option>
+                      <option value="declined">declined</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </td>
+              <td className="text-center">
+                <button 
+                  type="button" 
+                  className="btn btn-danger btn-sm"
+                  onClick={() => {if(window.confirm('Are you sure to delete this candidate?'))this.handleRemove(candidate.slug, idx)}}>
+                  Remove
+                </button>
+            </td>
+            </tr>
+          )}
+          </tbody>
+        </table>
       </div>
 
       <Modal show={this.state.showModal} false onHide={() => this.handleModalHide()}>
