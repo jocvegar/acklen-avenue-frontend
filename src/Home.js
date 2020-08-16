@@ -15,12 +15,14 @@ class Home extends Component {
       first_name: "",
       last_name: "",
       email: "",
+      sortBy: "all"
     };
 
     this.handleRemove = this.handleRemove.bind(this);
     this.handleNewFormChange = this.handleNewFormChange.bind(this);
     this.submitNewForm = this.submitNewForm.bind(this);
     this.filterCandidates = this.filterCandidates.bind(this);
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
 
   setToken() {
@@ -106,14 +108,33 @@ class Home extends Component {
 
   filterCandidates(filter_word) {
     let filterCandidates = [];
-    if (filter_word === "") {
-      filterCandidates = this.state.candidates;
-    } else {
-      filterCandidates = this.state.candidates.filter(
-        candidate => candidate.status === filter_word
-      );
-    }
-    this.setState({ filterCandidates });
+    this.setState({
+      sortBy: filter_word
+    }, () => {
+      if (this.state.sortBy === "all") {
+        filterCandidates = this.state.candidates;
+      } else {
+        filterCandidates = this.state.candidates.filter(
+          candidate => candidate.status === filter_word
+        );
+      }
+      this.setState({ filterCandidates });
+    })
+  }
+
+  handleChangeSelect(event, candidate) {
+    const apiURL = process.env.REACT_APP_API_URL
+    let token = this.setToken()
+    axios.patch(`${apiURL}/candidates/${candidate}`, {
+      candidate: {
+        status: event.target.value
+      },
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(()=> {
+      this.getCandidates()
+    })
+    .catch((e) => console.log(e))
   }
   
   render() {
@@ -130,28 +151,18 @@ class Home extends Component {
           </button>
         </div>
         <div className="col-6">
-        {/* <button 
-          type="button" 
-          className="btn btn-outline-secondary btn-sm btn-block"
-          onClick={this.reviewCandidtes}>
-          Sort
-        </button> */}
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary">
+                Sort by {this.state.sortBy}
+            </Dropdown.Toggle>
 
-        <Dropdown>
-          <Dropdown.Toggle variant="secondary">
-              Sort
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => this.filterCandidates("")}>All</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.filterCandidates("review")}>Pending</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.filterCandidates("pass")}>Pass</Dropdown.Item>
-            <Dropdown.Item onClick={() => this.filterCandidates("declined")}>Declined</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-
-
-
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => this.filterCandidates("all")}>All</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.filterCandidates("review")}>Pending</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.filterCandidates("pass")}>Pass</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.filterCandidates("declined")}>Declined</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
       <div className="responsive">
@@ -171,7 +182,18 @@ class Home extends Component {
             <td>{candidate.first_name}</td>
             <td>{candidate.last_name}</td>
             <td>{candidate.email}</td>
-            <td>{candidate.status}</td>
+            <td>
+              <Form>
+                <Form.Group controlId="exampleForm.selectStatus">
+                  <Form.Control as="select" onChange={(event) => this.handleChangeSelect(event, candidate.slug)}>
+                    <option defaultvaluevalue={candidate.status}>{candidate.status}</option>
+                    <option value="review">review</option>
+                    <option value="pass">pass</option>
+                    <option value="declined">declined</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form>
+            </td>
             <td className="text-center">
               <button 
                 type="button" 
