@@ -13,9 +13,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    const baseUrl = process.env.REACT_APP_BASE_URL
     // axios.get(`https://acklen-avenue-backend.herokuapp.com/api/candidates`)
     let token = this.setToken()
-    axios.get('http://localhost:3000/api/candidates', {
+    axios.get(`${baseUrl}/candidates`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => {

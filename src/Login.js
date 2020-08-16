@@ -14,7 +14,8 @@ function Login() {
     const { setAuthTokens } = useAuth();
 
     function postLogin() {
-        axios.post("http://localhost:3000/api/users/sign_in", {
+        const baseUrl = process.env.REACT_APP_BASE_URL
+        axios.post(`${baseUrl}/users/sign_in`, {
             user: {
                 email: email,
                 password: password,
