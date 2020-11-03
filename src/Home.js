@@ -36,6 +36,8 @@ class Home extends Component {
   }
 
   getCandidates() {
+    const createHistory = require("history").createBrowserHistory;
+
     const apiURL = process.env.REACT_APP_API_URL
     let token = this.setToken()
     axios.get(`${apiURL}/candidates`, {
@@ -47,6 +49,9 @@ class Home extends Component {
         candidates: candidates, 
         filterCandidates:candidates 
       });
+    }).catch(() => {
+      let history = createHistory();
+      history.push("/login");
     })
   }
 
@@ -153,7 +158,7 @@ class Home extends Component {
         <div className="col-6">
           <Dropdown>
             <Dropdown.Toggle variant="secondary">
-                Sort by {this.state.sortBy}
+                Filter by {this.state.sortBy}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -166,8 +171,8 @@ class Home extends Component {
         </div>
       </div>
       <div className="table-responsive-xl">
-        <table className="table table-hover table-bordered">
-          <thead>
+        <table className="table table-hover table-bordered" >
+          <thead className="thead-light">
           <tr>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
@@ -208,7 +213,7 @@ class Home extends Component {
         </table>
       </div>
 
-      <Modal show={this.state.showModal} false onHide={() => this.handleModalHide()}>
+      <Modal show={this.state.showModal} onHide={() => this.handleModalHide()}>
         <Modal.Header closeButton>
           <Modal.Title>Add new candidate</Modal.Title>
         </Modal.Header>

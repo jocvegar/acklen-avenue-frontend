@@ -45,43 +45,47 @@ function Login() {
     return(
         <div id="login">
             <div className="container pt-1">
-                <h2 className="text-center py-5">Welcome!</h2>
-                {hasError &&
-                    <Alert className="mb-5" variant="danger" onClose={() => setHasError(false)} dismissible>
-                        The username or password provided were incorrect!
-                    </Alert>
-                }
-                <Form>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Control 
-                            type="email" 
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={e => {
-                                setEmail(e.target.value)
-                            }} />
-                        <Form.Text className="text-muted">
-                            Please type in your email
-                        </Form.Text>
-                    </Form.Group>
+                <div className="row">
+                    <div className="col-12 col-md-8 offset-md-2">
+                        <h2 className="text-center py-5">Welcome!</h2>
+                        {hasError &&
+                            <Alert className="mb-5" variant="danger" onClose={() => setHasError(false)} dismissible>
+                                The username or password provided were incorrect!
+                            </Alert>
+                        }
+                        <Form>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Control 
+                                    type="email" 
+                                    placeholder="Enter email"
+                                    value={email}
+                                    onChange={e => {
+                                        setEmail(e.target.value)
+                                    }} />
+                                <Form.Text className="text-muted">
+                                    Please type in your email
+                                </Form.Text>
+                            </Form.Group>
 
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Control 
-                            type="password" 
-                            placeholder="Password"
-                            value={password}
-                            onChange={e => {
-                                setPassword(e.target.value)
-                            }} />
-                    </Form.Group>
-           
-                    <Button 
-                        variant="primary" 
-                        type="submit"
-                        onClick={submitForm}>
-                        Sign In
-                    </Button>
-                </Form>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={e => {
+                                        setPassword(e.target.value)
+                                    }} />
+                            </Form.Group>
+                
+                            <Button 
+                                variant="primary" 
+                                type="submit"
+                                onClick={submitForm}>
+                                Sign In
+                            </Button>
+                        </Form>
+                    </div> 
+                 </div>   
             </div>
         </div>
     )
